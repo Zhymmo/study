@@ -4,7 +4,7 @@ int main()
 {
 	int A = 0;
 	int B = 0;
-	scanf("%d %d", &A, &B);
+	scanf("%d %d", &A, &B);//max(A,B)
 	if (A > B)
 		printf("%d\n", A);
 	if (A == B)
