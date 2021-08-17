@@ -1,0 +1,15 @@
+#include<stdio.h>
+
+int main()
+{
+	int A = 0;
+	int B = 0;
+	scanf("%d %d", &A, &B);
+	if (A > B)
+		printf("%d\n", A);
+	if (A == B)
+		printf("一样大\n");
+	else
+		printf("%d\n", B);
+	return 0;
+}
