@@ -1,0 +1,17 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+int main()
+{
+int input = 0;
+printf("你长得帅吗？（0/1）\n");
+scanf("%d\n", &input);
+if (input == 0)
+{
+	printf("那就好");
+}
+else
+{
+	printf("不存在的");
+}
+return 0;
+}
