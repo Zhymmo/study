@@ -1,0 +1,21 @@
+//n的阶乘
+//i=0,i*i++,i=n.
+#include<stdio.h>
+int main()
+{
+	int n = 0;
+	int i = 0;
+	int z = 1;
+	int m = 3;
+	int q = 0;
+	for (n = 1; n <= m; n++)
+	{
+		for (i = 1,z=1; i <= n; i++)
+		{
+			z = z * i;
+		}
+		q += z;
+	}
+	printf("%d\n", q);
+	return 0;
+}
