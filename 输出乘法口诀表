@@ -1,0 +1,21 @@
+//用了10min，感觉再练习上个代码后熟练了很多。
+#include<stdio.h>
+int main()
+{
+	int n = 0;
+	int z = 0;
+	int m = 9;
+	while (n<10)
+	{
+		n++;
+		m = 9;
+		while (m>=n)
+		{
+			z = n * m;
+			printf("%d*%d=%d	", n, m, z);
+			m--;
+		}
+		printf("\n");
+	}
+	return 0;
+}
