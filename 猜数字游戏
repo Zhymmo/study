@@ -1,0 +1,57 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<time.h>
+#include<stdlib.h>
+#include<stdio.h>
+//制作游戏界面
+//生成随机数
+//判断输入的数反馈结果
+void menu()
+{
+	printf("*******************************************\n");
+	printf("**********1.开始游戏   0.结束游戏**********\n");
+	printf("*******************************************\n");
+}
+void game()//1.输入一个随机数
+           //2.判断大小  
+{
+	int x = 0;//随机取1个0~100之间的数
+	int y = 0;
+	x=rand()%100+1;//用取100的模来限定x的范围为0~100
+	do
+	{
+		printf("请输入数字\n");//猜数字
+		scanf("%d", &y);
+		if (y < x)
+			printf("小了\n");
+		if (y > x)
+			printf("大了\n");
+		else if (y == x)
+			printf("猜对了！\n");
+	} 
+	while (y != x);
+}
+
+int main()
+{
+	int input = 0;
+	srand((unsigned int)time(NULL));
+	do
+	{
+		menu();
+		scanf("%d", &input);
+		switch (input)
+		{
+		case 1:
+
+				game();//进入游戏
+				break;
+		case 0:
+				printf("game over\n");
+				break;
+		default:
+				printf("input erro\n");
+				break;
+		}
+	} while (input);
+	return 0;
+}
