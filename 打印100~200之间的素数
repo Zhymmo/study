@@ -20,3 +20,33 @@ while(n<=200)
 	return 0;
 }
 //花了1h
+
+//修改版
+//打印100~200之间的素数并计算个数；
+//从0~n中只要试0~根号n中是否存在能被n整除的数就能说明n是否为素数；
+//简化了从0试到n的算法；
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n = 0;
+	int i = 0;
+	int a = 0;
+	int sum = 0;
+	for (n = 100; n <= 200; n++)//制造100到200的数
+	{
+		for (i = 2; i <= sqrt(n); i++)//计算是否为素数,sqrt为开根号；
+		{
+			a = n % i;
+			if (a == 0)
+				break;
+		}
+		if (a != 0)
+		{
+			printf("%d ", n);
+			sum++;
+		}
+	}
+	printf("\n%d", sum);
+	return 0;
+}
