@@ -1,0 +1,22 @@
+#include<stdio.h>
+//#####################
+//welcome to the empire
+#include<Windows.h>
+#include<stdlib.h>
+int main()
+{
+	char arr1[] = "#####################";
+	char arr2[] = "welcome to the empire";
+	int left = 0;
+	int right = strlen(arr1)-1;
+	for (left, right+1; left <= right; left++, right--)
+	{
+		
+		arr1[left] = arr2[left];
+		arr1[right] = arr2[right];
+		printf("%s\n", arr1);
+		Sleep(1000);//休息1secon
+		system("cls");//清空屏幕
+	}
+	return 0;
+}
