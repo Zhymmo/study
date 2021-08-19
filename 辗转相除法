@@ -1,0 +1,18 @@
+//辗转相除法，a,b的最大公约数q=（a,b）同时也为r=a%b的最大约数。
+//取任意两个数a,b且a>b。
+//设a,b的任意一个公约数为q=(a,b),则a=qn,b=qm.设r为a/b的余数。
+//则a=kb+r=>qn=kqm+r
+//r=q(n-km)>=0，n-km是正整数=>q是r的约数=>（a,b）=(a,b,r)
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+int main()
+{
+	int a = 0;
+	int b = 0;
+	int r = 0;
+	scanf("%d%d", &a, &b);
+	for (a,b;r=a%b;a=b,b=r)
+	{ }
+	printf("最大公约数为%d\n", b);
+	return 0;
+}
