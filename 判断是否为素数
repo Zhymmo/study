@@ -1,0 +1,33 @@
+#include<stdio.h>
+#include<math.h>
+int judge(int x)
+{
+	int z = 0;
+	int m = 0;
+	for (m = 2; m <= sqrt(x); m++)
+	{
+		z = x % m;
+		if (z == 0)
+			break;
+	}
+	if (m > sqrt(x))
+		return 1;
+	else 
+		return 0;
+}
+int main()
+{
+	int n = 0;
+	int count = 0;
+	for (n = 100; n <= 200; n++)
+	{
+		
+		if (judge(n) == 1)
+		{
+			printf("%-2d ", n);
+			count++;
+		}
+	}
+	printf("\n一共有%d个\n", count);
+	return 0;
+}
