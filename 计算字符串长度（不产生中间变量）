@@ -1,0 +1,16 @@
+#include<stdio.h>
+int len(char* x)
+{
+	if (*x != '\0')
+	{
+		return 1+len(x+1);
+	}
+	else
+		return 0;
+}
+int main()
+{
+	char a[] = "abcd";//数组传参传的是数组第一个数的指针。
+	printf("len(a)=%d\n",len(a));
+	return 0;
+}
