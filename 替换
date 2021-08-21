@@ -1,0 +1,18 @@
+#include<stdio.h>
+//1. 给定两个整形变量的值，将两个值的内容进行交换。不允许创建临时变量
+int a = 10;
+int b = 20;
+void replace(int* x,int* y)
+{
+	
+	a=*y;
+	b=*x;
+
+}
+int main()
+{
+
+	replace(&a, &b);
+	printf("a=%d b=%d", a, b);
+	return 0;
+}
