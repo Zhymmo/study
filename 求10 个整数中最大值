@@ -1,0 +1,19 @@
+#include<stdio.h>
+
+int main()
+{
+	int arr[] = { 1,2,3,4,99,6,7,8,9,10 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	printf("max=%d\n",max(arr,sz));//传上去的是什么？
+	return 0;
+}
+max(int arr[], int y)//怎么接受一个数组
+{
+	int m = arr[0];
+	for (int i = 1; i <= y; i++)
+	{
+		if (arr[i] > m)
+			m = arr[i];
+	}
+	return m;
+}
