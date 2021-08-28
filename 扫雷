@@ -1,0 +1,188 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+#define ROW 9
+#define COL 9
+#define ROWS ROW+2
+#define COLS COL+2
+#define easy_mine 10
+void initialization(char board[ROWS][COLS],int rows,int cols,char set);
+void display(char board[ROWS][COLS],int row,int col);
+void setmine(char mine[ROWS][COLS], int row, int col);
+void mine_clean(char board[ROWS][COLS], char mine[ROWS][COLS], int rows, int cols);
+void expend(char board[ROWS][COLS], char mine[ROWS][COLS], int x, int y);
+#define _CRT_SECURE_NO_WARNINGS 1
+#include"扫雷.h"
+void menu()
+{
+	printf("**********************************\n");
+	printf("*****   1.扫雷      0.结束   *****\n");
+	printf("**********************************\n");
+}
+int main()
+{
+	int input = 0;
+	srand((unsigned int)time(NULL));
+	do
+	{
+		menu();
+		printf("请输入\n");
+		scanf("%d", &input);
+		switch (input)
+		{
+		case 1:
+			game();
+			break;
+		case 0:
+			printf("游戏结束\n");
+			break;
+		default:
+			printf("输入错误，请重新输入\n");
+			break;
+		}
+	} while (input);
+
+	return 0;
+}
+#define _CRT_SECURE_NO_WARNINGS 1
+#include"扫雷.h"
+void game()
+{
+	char board[ROWS][COLS] = { 0 };//创建两个比棋盘大一圈的数组（便于在边上扫雷）
+	char mine[ROWS][COLS] = { 0 };
+	initialization(board, ROWS, COLS, '*');//初始化两个棋盘，一个放随机10个雷，一个用于扫雷。
+	initialization(mine, ROWS, COLS, '0');
+	setmine(mine, ROW, COL);//在随机十个位置放置雷'1'于mine
+	display(mine, ROW, COL);
+	display(board, ROW, COL);//打印两个棋盘
+	mine_clean(board, mine, ROWS, COLS);//扫雷
+
+}
+void initialization(char board[ROWS][COLS], int rows, int cols, char set)
+{
+	int i = 0;
+	int j = 0;
+	for (i = 0; i < rows; i++)
+	{
+		for (j = 0; j < cols; j++)
+		{
+			board[i][j] = set;
+		}
+	}
+}
+void display(char board[ROWS][COLS], int row, int col)
+{
+	int i = 0;
+	int j = 0;
+	for (j = 0; j <= col; j++)
+	{
+		printf("%d ", j);
+	}
+	printf("\n");
+	for (i = 1; i <= row; i++)
+	{
+		printf("%d ", i);
+		for (j = 1; j <= col; j++)
+		{
+			printf("%c ", board[i][j]);
+		}
+		printf("\n");
+	}
+}
+void setmine(char mine[ROWS][COLS], int row, int col)
+{
+	int x = 0;
+	int y = 0;
+	int count = easy_mine;
+while(count)
+	{
+		x = rand() % row + 1;
+		y = rand() % col + 1;
+		if (mine[x][y] == '0')
+		{
+			mine[x][y] = '1';
+			count--;
+		}
+	}
+}
+void mine_clean(char board[ROWS][COLS], char mine[ROWS][COLS], int rows, int cols)
+{
+	//4.把数字赋予棋盘board上并打印
+	int x = 0;//1.玩家输入坐标
+	int y = 0;
+	do {
+	top:
+		printf("请输入坐标\n");
+		scanf("%d %d", &x, &y);
+		if (x<1 || y<1 || x>rows - 2 || y>cols - 2 || board[x][y] != '*')
+		{
+			printf("输入错误，请重新输入。\n");
+			goto top;
+		}
+		if (mine[x][y] == '1')//2.在雷盘mine是否坐标是炸弹
+		{
+			printf("boom!!!\n");
+			display(mine, ROW, COL);
+			break;
+		}
+		else//3.看坐标周围8个格中有几个炸弹
+		{
+			expend(board, mine, x, y);
+			display(board, ROW, COL);
+		}
+		int count = 0;
+		count = ifwin(board, ROW, COL);
+		if (count == easy_mine)
+		{
+			printf("你赢了\n");
+			break;
+		}
+	} while (1);
+}
+void expend(char board[ROWS][COLS], char mine[ROWS][COLS], int x, int y)
+{
+	int i = 0;
+	int j = 0;
+	int count = 0;
+	for (i = x - 1; i <= x + 1; i++)
+	{
+		for (j = y - 1; j <= y + 1; j++)
+		{
+			if (i == x && j == y)
+				continue;
+			if (mine[i][j] == '1')
+			{
+				count++;
+			}
+		}
+	}
+		board[x][y] = count + '0';
+	if (count == 0&&x<=ROWS-2&&x>0 && y <= COLS - 2 && y > 0)
+	{
+		if(board[x+1][y]=='*')
+		expend(board, mine, x+1, y);
+		if (board[x][y+1] == '*')
+		expend(board, mine, x , y+1);
+		if (board[x][y-1] == '*')
+		expend(board, mine, x, y -1);
+		if (board[x - 1][y] == '*')
+		expend(board, mine, x-1, y);
+	}
+
+
+}
+int ifwin(char board[ROWS][COLS], int row, int col)
+{
+	int i = 0;
+	int j = 0;
+	int count = 0;
+	for (i = 1; i <= row; i++)
+	{
+		for (j = 1; j <= col; j++)
+		{
+			if (board[i][j] == '*')
+				count++;
+		}
+	}
+	return count;
+}
