@@ -1,0 +1,66 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//1.初始化数组全为零
+//2.print()打印所有数
+//3.reverse()完成逆置
+#include<stdio.h>
+void Print(int arr[], int sz)
+{
+	int i = 0;
+	for (i = 0; i < sz; i++)
+	{
+		printf("%d ", arr[i]);
+	}
+}
+void Initiate(int arr[], int sz)
+{
+	int i = 0;
+	for (i = 0; i < sz; i++)
+	{
+		arr[i] = 0;
+	}
+	Print(arr, sz);
+}
+void Reverse(int arr[], int sz)
+{
+	int i = 0;
+	int mid = 0;
+	for (i = 1; i <= sz / 2; i++)
+	{
+		mid = arr[i-1];
+		arr[i - 1] = arr[sz - i];
+		arr[sz - i] = mid;
+	}
+	Print(arr, sz);
+}
+int main()
+{
+	int arr[] = { 1,2,3,4,5,6,7,8,9,10 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	int input = 0;
+	do
+	{
+	printf("1.初始化，2.打印，3.逆置\n");
+	scanf("%d", &input);
+		switch (input)
+		{
+		case 1:
+		{
+			Initiate(arr, sz);
+			break;
+		}
+		case 2:
+		{
+			Print(arr, sz);
+			break;
+		}
+		case 3:
+		{
+			Reverse(arr, sz);
+			break;
+		}
+		default:
+			printf("输入错误\n");
+		}
+	} while (input!=1&& input != 2 && input != 3);
+	return 0;
+}
