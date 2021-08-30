@@ -1,0 +1,23 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+int main()
+{
+	do {
+		int n = 0;
+		scanf("%d", &n);
+		printf("%d\n", DigitSum(n));
+	} while (1);
+}
+int DigitSum(int n)
+{
+	if (n < 0)
+	{
+		return 0;
+	}
+	int sum = 0;
+	if (n > 9)
+		sum = n % 10 + DigitSum(n / 10);
+	else
+		sum = n;
+	return sum;
+}
