@@ -1,0 +1,21 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+int exp(int n, int k)
+{
+	int count = 0;
+	if (k == 1)
+		count = n;
+	else
+	    count = n * exp(n, k - 1);
+	return  count;
+}
+int main()
+{
+	do {
+		int n = 0;
+		int k = 0;
+		scanf("%d %d", &n, &k);
+		printf("%d\n", exp(n, k));
+	} while (1);
+	return 0;
+}
