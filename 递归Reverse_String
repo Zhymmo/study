@@ -1,0 +1,23 @@
+#include<stdio.h>
+void Reverse_String(char* str)
+{
+	char* p = str;
+	int n = 0;
+	while (*p++ != '\0')
+		n++;
+	if (n > 1)
+	{
+		char temp = str[0];
+		str[0] = str[n-1];
+		str[n-1] = '\0';
+		Reverse_String(str+1);
+		str[n-1] = temp;
+	}
+}
+int main()
+{
+	char string[] = "uiz Foever God";
+	Reverse_String(string);
+	printf("%s\n", string);
+	return 0;
+}
