@@ -1,0 +1,44 @@
+#include<stdio.h>
+int maxProfit(int* prices, int pricesSize)
+{
+	//找上升区间，最低时买入，最高时卖出。
+	//low表示上升区间最低值，high表示上升区间最高值。n+1比n大，low=n，hight=n+1.
+	//1.找到上升区间的开始
+	int low = 0;
+	int high = 0;
+	int profit = 0;
+	if (pricesSize < 2)
+		return 0;
+	for (int n = 0; n < pricesSize - 1; n++)
+	{
+		if (prices[n + 1] > prices[n])//找到上升的开始
+		{
+			low = n;//第n+1天开始上升
+			high = n + 1;
+			for (n++; n < pricesSize; n++)//找到上升的结束
+			{
+				if (n == pricesSize - 1)
+				{
+					high = n;
+					break;//忘记加了。
+				}
+				if (prices[n + 1] < prices[n])
+				{
+					high = n;
+					break;
+				}
+			}
+			profit += prices[high] - prices[low];
+		}
+	}
+	return profit;
+}
+int main()
+{
+	int arr[] = { 7,1,5,3,6,4 };
+	printf("%d\n",maxProfit(arr, 6));
+}
+//总结：
+//1.没有在思考解决问题，而是在思考如何写代码。
+//2.这次考虑的较为周到。
+//3.没有设定好循环的结束。
