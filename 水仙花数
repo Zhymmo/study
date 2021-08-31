@@ -1,0 +1,29 @@
+//水仙花数：一个三位数，各数字的立方等于该数本
+#include<stdio.h>
+#include<math.h>
+int main()
+{
+	int n = 0;
+	int sum = 0;
+	int m = 0;
+	int ret = 0;
+	for (n = 0; n < 100000; n++)//取所有的三位数
+	{
+		for (ret=0,m = n; m > 0; m = m / 10)
+		{
+			ret++;
+		}
+		for (sum = 0,m = n; m>0; m=m/10)//把三位数拆分成三个数字
+		{
+			sum+=pow(m % 10, ret);
+			if (sum > n)
+				break;
+		}
+		if (sum == n)
+		{
+			printf("%d ", n);
+		}
+	}
+	return 0;
+}
+//总结：失误点，局部变量和全局变量。for循环里定义第一个数后第二个数也重新定义为局部变量。
