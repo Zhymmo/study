@@ -1,0 +1,39 @@
+#include<stdio.h>
+int count_one_bits(unsigned int value)//返回二进制1的个数
+{
+	int count = 0;
+	while(value)
+	{
+		if ((value & 1) == 1)
+			count++;
+		value >>= 1;
+	}
+	return count;
+}
+void divide(unsigned int value)//分别打印基数和偶数位
+{
+	if (value > 0)
+	{
+		divide(value >>2);
+		printf("%d ", value & 1);
+	}
+}
+void print(unsigned int value)//输出整数的每一位
+{
+	if (value > 0)
+	{
+		print(value /10);
+		printf("%d ", value % 10);
+	}
+}
+int Difference(unsigned int m, unsigned int n)//比较两个数有多少bit位不同
+{
+	return count_one_bits(m ^ n);
+}
+int main()
+{
+	int m = 1999;
+	int n = 2299;
+	printf("%d\n", Difference(m, n));
+	return 0;
+}
