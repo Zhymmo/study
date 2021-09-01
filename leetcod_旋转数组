@@ -1,0 +1,61 @@
+void rotate1(int* nums, int numsSize, int k) {
+	int i = 0;
+	int tmp = 0;
+	for (i = 1; i <= k; i++)//每次旋转
+	{
+		if (numsSize == 1)
+			break;
+		tmp = nums[numsSize - 1];
+		int j = 0;
+		for (j = numsSize - 2; j >= 0; j--)//从倒数第二位依次向右移一位
+		{
+			nums[j + 1] = nums[j];
+		}
+		nums[0] = tmp;
+	}
+}
+void rotate2(int* nums, int numsSize, int k)
+{
+	int kk = k % numsSize;
+	int tmp = 0;
+	int n = 0;
+	for (n = 0; n < numsSize - kk; n++)
+	{
+		tmp = nums[n];
+		nums[n] = nums[2 * numsSize - kk - n];
+		nums[2 * numsSize - kk - n] = tmp;
+	}
+	nums = nums + numsSize - kk;
+}
+void rotate3(int* nums, int numsSize, int k)
+{
+	int kk = k % numsSize;
+	int i = 0;//表示数组的第几位
+	int tmp = 0;
+	for (i = 0; i < numsSize / 2; i++)//全部反转
+	{
+		tmp = nums[i];
+		nums[i] = nums[numsSize - i - 1];
+		nums[numsSize - i - 1] = tmp;
+	}
+	for (i = 0, tmp = 0; i <= kk / 2; i++)//反转前部分
+	{
+		tmp = nums[i];
+		nums[i] = nums[kk - i - 1];
+		nums[kk - i - 1] = tmp;
+	}
+	for (i = 0, tmp = 0; i <= (numsSize - kk) / 2; i++)//反转后部分
+	{
+		tmp = nums[kk + i];
+		nums[kk + i] = nums[numsSize - i - 1];
+		nums[numsSize - i - 1] = tmp;
+	}
+}
+int main()
+{
+	int nums1[7] = { 1,2,3,4,5,6,7 };
+	int k = 3;
+	int numsSize = 7;
+	rotate3(nums1, numsSize, k);
+	return 0;
+}
