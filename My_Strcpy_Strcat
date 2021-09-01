@@ -1,0 +1,38 @@
+//模拟实现字符串拷贝
+#include<stdio.h>
+#include<assert.h>
+char* My_Strcpy(char* p1, const char* p2)//改变的第一个数组，所以返回第一个数组的首地址。
+{                                            //第二个数组不需要改变，所以加const
+	char* net = p1;
+	assert(p2);//不能是空指针
+	while (*p1++=*p2++)//
+	{
+		;
+	}
+	return net;
+}
+char* My_Strcat(char* p1,const char* p2)//把p2接在p1之后
+{
+	char* net = p1;
+	assert(p2);
+	char* p = NULL;
+	for( p=p1;(*p)!='\0';p++)
+	{
+		;
+	}
+	int szp1 = p-p1;
+	p1 = p1 + szp1;
+	while (*p1++=*p2++)
+	{
+		;
+	}
+	return net;
+}
+int main()
+{
+	char arr1[30] = "good morning";
+	char arr2[30] = "hello word";
+//复制第二个数组到第一个数组
+	printf("%s\n", My_Strcat(arr1, arr2));
+	return 0;
+}
