@@ -1,0 +1,32 @@
+#include<stdio.h>
+int singleNumber(int* nums, int numsSize) {
+	int left = 0;
+	int right = 0;
+	for (left = 0; left < numsSize ; left++)
+	{
+		for (right = 0; right < numsSize; right++)
+		{
+			if (right == left)
+				continue;
+			if (nums[left] == nums[right])
+				break;
+		}
+		if (right>=numsSize)
+			return nums[left];
+	}
+}
+int singleNumber2(int* nums, int numsSize)
+{
+	int sum = 0;
+	for (int a = 0; a < numsSize; a++)
+	{
+		sum = sum ^ a;
+	}
+	return sum;
+}
+int main()
+{
+	int nums[] = { 4,1,2,1,2 };
+	printf("%d",singleNumber2(nums, 5));
+	return 0;
+}
