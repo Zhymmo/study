@@ -25,6 +25,6 @@ int main()
 	//---()-使用函数，没有参数
 	void (*signal(int, void(*)(int)))(int);
 	//signal(int, void(*)(int))—参数为整形和函数指针的函数signal
-	//
+	//void (*)(int)函数的返回类型为函数指针，函数参数为整数，无返回值。
 	return 0;
 }
