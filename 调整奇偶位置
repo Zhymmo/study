@@ -1,0 +1,31 @@
+#include<stdio.h>
+void Order(int arr[], int sz)//双指针找奇数偶数
+{
+	int left = 0;
+	int right = 0;
+	for (left = 0; left < sz; left++)//找偶数
+	{
+		if (arr[left] % 2 == 0)
+		{
+			int tmp = arr[left];//把偶数放到暂存位置
+			for (right = left+1; right < sz; right++)//找奇数
+			{
+				if (arr[right] % 2 > 0)
+				{
+					arr[left] = arr[right];
+					arr[right] = tmp;
+					break;
+				}
+			}
+			if (right == sz)
+				break;
+		}
+	}
+}
+int main()
+{
+	int arr[] = { 1,3,5,7,9,2,4,6,8,10 };
+	int sz = sizeof(arr) / sizeof(arr[0]);
+	Order(arr, sz);
+	return 0;
+}
