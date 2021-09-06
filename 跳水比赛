@@ -1,0 +1,47 @@
+#include<stdio.h>
+//A选手说：B第二，我第三；
+//B选手说：我第二，E第四；
+//C选手说：我第一，D第二；
+//D选手说：C最后，我第三；
+//E选手说：我第四，A第一；
+int main()//把所有数组情况都列出来，看每个人说的话是否都是对一半。
+{
+	int arr[5] = { 0 };
+	int sum = 0;
+	for (int a = 1; a <= 5; a++)
+	{
+		arr[0] = a;
+		for (int b = 1; b <= 5; b++)
+		{
+			if (b == a)
+				continue;
+			arr[1] = b;
+			for (int c = 1; c <= 5; c++)
+			{
+				if (c == a || c == b)
+					continue;
+				arr[2] = c;
+				for (int d = 1; d <= 5; d++)
+				{
+					if (d == a || d == b || d == c)
+						continue;
+					arr[3] = d;
+					arr[4] = 15 - a - b - c - d;
+					if ((arr[1] == 2) + (arr[0] == 3) == 1 &&
+						(arr[1] == 2) + (arr[4] == 4) == 1 &&
+						(arr[2] == 1) + (arr[3] == 2) == 1 &&
+						(arr[4] == 4) + (arr[0] == 1) == 1)
+					{
+						for (int i = 0; i < 5; i++)
+						{
+							printf("%d ", arr[i]);
+						}
+						goto end;
+					}
+				}
+			}
+		}
+	}
+ end:
+	return 0;
+}
