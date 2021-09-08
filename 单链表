@@ -1,0 +1,12 @@
+
+typedef struct LNode 
+{
+	int num;
+	struct LNode* next;
+}LNode,*LinkList;
+int main()
+{
+	LinkList L = (LinkList)malloc(sizeof(LNode));
+	L->next = NULL;
+	return 0;
+}
