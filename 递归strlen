@@ -1,0 +1,17 @@
+#include<stdio.h>
+int My_Strlen(char* str)//不使用中间变量计算字符串长度
+{
+	if (*str != '\0')
+	{
+		return 1+My_Strlen(str + 1);
+	}
+	else
+		return 0;
+}
+int main()
+{
+	char string[10] = "\0";
+	gets(string);
+	printf("%d",My_Strlen(string));
+	return 0;
+}
