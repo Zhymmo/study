@@ -1,0 +1,33 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//a b c
+//1.把n-1层从a放到b
+//2.把第n层从a放到c
+//3.把n-1层从b放到c
+#include<stdio.h>
+void hanoi(int n,char a, char b, char c)
+{
+	if (n == 1)
+	{
+		printf("%c->%c\n",a,c);
+	}
+	else
+	{
+		hanoi(n - 1, a, c, b);
+		printf("%c->%c\n",a,c);
+		hanoi(n - 1, b, a, c);
+	}
+}
+int main()
+{
+	char a = 'a';
+	char b = 'b';
+	char c = 'c';
+	int n = 0;
+	do
+	{
+		printf("请输入层数\n");
+		scanf("%d", &n);
+		hanoi(n, a, b, c);
+	} while (1);
+	return 0;
+}
