@@ -1,0 +1,46 @@
+#include<string.h>
+#include<assert.h>
+void* My_memcpy(void* dest, const void* str, size_t lenth)
+{
+	char* tmp = dest;
+	assert(dest);
+	assert(str);
+	while (lenth--)
+	{
+		*(char*)dest = *(char*)str ;
+		++(char*)dest;
+		++(char*)str;
+	}
+	return tmp;
+}
+void* My_memmove(void* dest, const void* str, size_t lenth)
+{
+	assert(dest && str);
+	char* tmp = dest;
+	if (str < dest)
+	{
+		while (lenth--)
+		{
+			*(((char*)dest) + lenth ) = *(((char*)str) + lenth );
+		}
+	}
+	else
+	{
+		while (lenth--)
+		{
+			*(char*)dest = *(char*)str;
+			++(char*)dest;
+			++(char*)str;
+		}
+	}
+	return tmp;
+}
+int main()
+{
+	int arr1[] = { 1,2,3,4,5,6,7,8,9,10 };
+	int arr2[] = { 5,4,3,2,1 };
+	//memset(arr, 23, 10);
+	//My_memcpy(arr1, arr2, 12);
+	My_memmove(arr1, arr1+3, 20);
+	return 0;
+}
