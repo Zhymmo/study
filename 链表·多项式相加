@@ -1,0 +1,41 @@
+//1.创建两个链表
+#include<stdlib.h>
+typedef struct S {
+	int value;
+	int expn;
+	struct S* next;
+}S,*P;
+
+void Createpolyn(P p1, int n)//1.创建多项式
+{
+	p1 = (P)malloc(sizeof(S));//分配一个空间，大小为一个结构体，类型位结构体指针。
+	p1->next = NULL;//建立头节点
+
+	for (int i = 1; i <= n; i++)//循环n次，输入对应的系数和指数
+	{
+		P s = (P)malloc(sizeof(S));
+		scanf("%d %d", s->value, s->expn);
+		P pre = p1;//设立q的前驱节点，初始值为头节点。
+		P q = pre->next;//用q来找到指数
+		while (q&&q->expn<s->expn)//找到第一个比s指数大的节点，并插入之间。
+		{
+			pre = q;
+			q = q->next;
+		}
+		pre->next = s;
+		s->next = q;
+	}
+}
+void Addpolyn(P p1, P p2)//
+{
+
+}
+int main()
+{
+	P p1; P p2;
+	int n1 = 5; int n2 = 6;
+	Createpolyn(p1, n1);
+	Createpolyn(p2, n2);
+	Addpolyn(p1, p2);
+	return 0;
+}
