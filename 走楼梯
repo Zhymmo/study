@@ -1,0 +1,23 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+int Stair_Step(int n,int i)
+{
+
+	if (n > 2)
+	{
+		return Stair_Step(n - 1, i)+ Stair_Step(n - 2, i);
+	}
+	else if (n == 1)
+		return 1;
+	else
+		return 2;
+
+}
+int main()
+{
+	int n = 0;
+	scanf("%d", &n);
+	 int i = n;
+	printf("%d",Stair_Step(n,i));
+	return 0;
+}
