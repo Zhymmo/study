@@ -30,6 +30,8 @@ typedef struct Lnode //单链表，包括联系人信息和后继节点指针
 void add(P c);
 void show(P c);
 void Sort(P c);
+void Save(P c);
+void Load(P c);
 void Delete(P c, char* peo);
 void Search(P c, char* peo);
 void Change(P c, char* peo);
