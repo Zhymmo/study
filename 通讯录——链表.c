@@ -67,7 +67,7 @@ void Search(P c, char* peo)
 {
 	P show = Search_Peo(c, peo);
 	if (show == NULL)
-		return 0;
+		return;
 	show = show->next;
 	printf("%-20s\t%-12s\t%5s\t%-4d\n", show->info.name, show->info.tel, show->info.sex, show->info.age);
 
@@ -104,7 +104,7 @@ void Sort(P c)
 		q1 = q1->next;
 	}
 	if (len <= 1)
-		return 0;
+		return;
 
 	while (--len)//冒泡循环len-1次
 	{
@@ -115,13 +115,59 @@ void Sort(P c)
 		{
 			if (strcmp(q1->info.name, q2->info.name) > 0)
 				Swap(qpre,q1, q2);
-			else
-			{
+
 				qpre = q1;
 				q1 = q2;
 				q2 = q2->next;
-			}
+
 		}
 	}
 	printf("排序成功\n");
+}
+void Save(P c)
+{
+	c = c->next;
+	FILE* sa = fopen("contact.tst", "wb");
+	if (sa == NULL)
+	{
+		perror("open contact.tst fault");
+		return;
+	}
+
+	while (c)
+	{
+		fwrite(&(c->info), sizeof(Peo), 1, sa);
+		c = c->next;
+	}
+	fclose(sa);
+	sa = NULL;
+}
+void Load(P c)
+{
+	Peo tmp = { 0 };
+	FILE* lo=fopen("contact.tst", "rb");
+	if (lo == NULL)
+	{
+		perror("load fail");
+		return;
+	}
+	while (fread(&tmp, sizeof(Peo), 1, lo))
+	{
+
+		P c1 = (P)malloc(sizeof(L));
+		if (c1 == NULL)
+		{
+			printf("%d", strerror(errno));
+		}
+		c1->next = NULL;//建立新的节点，用尾插法插入到链表中
+		c1->info = tmp;
+		P pre = c;//前驱节点,指向头节点
+		P q = c->next;//搜索节点，指向首元结点
+		while (q)//循环到q指向空地址
+		{
+			pre = q;
+			q = q->next;//前驱节点和搜索节点向后移，直到q指向空
+		}
+		pre->next = c1;
+	}
 }
