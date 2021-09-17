@@ -15,7 +15,8 @@ int main()
 	{
 		return 0;
 	}
-	c->next = NULL;//建立头节点并且初始化
+	c->next = NULL;//建立头节点并且初始化,将文件信息录入
+	Load(c);
 	do
 	{
 		menu();
@@ -52,6 +53,7 @@ int main()
 			Sort(c);
 			break;
 		case EXIT:
+			Save(c);
 			printf("退出程序\n");
 			break;
 		default:
