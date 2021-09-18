@@ -1,0 +1,87 @@
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+int* Get_next(const char* pat, const unsigned int lpat)//获取next数组
+{
+	if (lpat == 0)
+		return NULL;
+	int* next = (int*)malloc( (sizeof(int))*lpat);//分配一个lpat大小的动态空间
+	if (next == NULL)
+		return 0;
+	int k = -1;//k表示当前next的值，next的值表示k前的前缀与等长度的后缀相同
+	next[0] = k;//next数组第一个赋值-1，可以看成与匹配串对齐时，与第一个字符前一个对齐
+	if (lpat == 1)
+		return next;
+	for (int j = 0; j <=lpat - 2; )
+	{
+		if (k == -1 || pat[j] == pat[k])
+		{
+			next[++j] = ++k ;
+		}
+		else
+		{
+			k = next[k];
+		}
+	}
+	return next;//返回next数组指针
+}
+char* Kmp(const char* mat,  const char* pat)
+{
+	const unsigned int lmat = strlen(mat);
+	const unsigned int lpat = strlen(pat);
+	int *next=Get_next(pat, lpat);//得到next数组
+	//for (int i = 0; i < lpat; i++)
+	//{
+	//	printf("%d ", next[i]);
+	//}
+	//return 0;
+	int i = 0;
+	int j = 0;
+	while (j==-1||mat[i] && pat[j])
+	{
+		if (j == -1 || mat[i] == pat[j])
+		{
+			i++; j++;
+		}
+		else
+			j = next[j];
+	}
+	free(next);
+	next = NULL;
+	if (!mat[i]&&pat[j])
+		return NULL;
+	else
+		return &mat[i - j];
+}
+int main()//用kmp函数实现查找str2是否在str1中
+{
+	char* mat = "abcdacbdabaabaacaabaabaacacbdabaabaac";
+	char* pat = "abaabaac";
+	while (mat!=NULL)
+	{
+		char* tmp = (char*)Kmp(mat, pat);
+		if (tmp == NULL)
+			break;
+		printf("%s\n", tmp);
+		mat = tmp + strlen(pat);
+	}
+	return 0;
+}
+//总结
+//难点有三
+//一.理解为什么指向mat的指针可以不用回溯到起始匹配位置，而是指定位置。
+//二.得到关于按指定位置匹配的数组，next数组
+//   1.next数组中的任意一个数k表示，当前位置之前的字符串中k之前的前缀和最后k-1个后缀相同
+//   2.next[0]=-1,可以看成第一个字符匹配失败后，mat与pat的-1位对齐（i和j都前进一位）
+//   3.next的每个数值是由前面的数求出，可以避免重复计算。
+//     a.pat[j+1]跟pat[j]的next[j]=k的pat[k]比较
+//       pat （* * * # # # # # * * * ？ ）
+//             0 1 2 3 4 5 6 7     j j+1
+//       next(-1 0 1 2 0 0 0 0 0 1 2 ?  )
+//                   |_______________|比较，相等next[j+1]=next[j]+1
+//       不相等，继续跟pat[k]的next的值的位置比较，一直到相等或者k=-1(首位不相等)
+//     b.next数组是一个长度根据pat变化的数组，需要开辟动态空间，之后要释放空间
+//       当释放空间时，如果此时的内容空间超过了开辟的空间，会出错！！
+//三.由next函数，移动mat上的指针，直到完全匹配后返回第i-j位的地址
+//   1.循环条件和结束条件
+//   2.多个匹配项
