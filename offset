@@ -1,0 +1,17 @@
+//创建一个宏，实现求结构体中，任意一个元素的偏移量
+#include<stdio.h>
+#define OFFSETOF(struct_name,member_name) (int)&(((struct_name*)0)->member_name)//member_name之前加了括号，导致程序出错
+#define MAX 1000
+struct S
+{
+	char ch1;
+	int val1;
+	char ch2;
+};
+
+int main()
+{
+	printf("%d\n", OFFSETOF(struct S, ch1));
+	int a = MAX;
+	return 0;
+}
