@@ -1,0 +1,39 @@
+//给出一个数组，其中有两个数时单独出现的，其他都是成对出现的。
+#include<stdio.h>
+#include<math.h>
+int* Find_Single(int arr[], int sz)
+{
+	int sum = 0;
+	int* single = (int*)malloc(8);
+	for (int i = 0; i < sz; i++)//循环的结果是两个单独的数的异或
+	{
+		sum = sum^arr[i];
+	}
+	int m = 1;
+	for (m=1; m ; m=m<<1)//循环32个bit位，找到sum中第一次出现1
+	{
+		if ((sum & m) == m)
+			break;
+	}
+	int arr1 = 0;//第一组的异或总值
+	int arr2 = 0;//第二组的异或总值
+	for (int i = 0; i < sz; i++)//遍历数组
+	{
+		if ((arr[i] & m) == m)
+			arr1 = arr1 ^ arr[i];
+	}
+	arr2 = arr1 ^ sum;
+	single[0] = arr1;
+	single[1] = arr2;
+	return single;
+}
+int main()
+{
+	int arr[14] = { 1,2,3,4,5,1,2,3,4,6 ,0,0,5,7};
+	int sz = sizeof(arr) / sizeof(int);
+	int*single=Find_Single(arr,sz);
+	printf("单独的数分别是 %d %d\n",single[0], single[1]);
+	free(single);
+	single = NULL;
+	return 0;
+}
