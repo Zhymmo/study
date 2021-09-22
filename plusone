@@ -1,0 +1,54 @@
+#include<math.h>
+int* plusOne(int* digits, int digitsSize, int* returnSize)
+{
+	int long val = 0;
+	int i = 0;
+	for (i = digitsSize - 1; i >= 0; i--)
+	{
+		val += *(digits + i) * pow(10, digitsSize - 1 - i);
+	}
+	val = val + 1;
+	int long ret = val;
+	int size = 1;
+	for (ret; ret > 9; ret /= 10)
+	{
+		size++;
+	}
+	*returnSize = size;
+	int* arr = (int*)malloc(4 * size);
+	int j = 0;
+	for (j = size - 1; val > 0; j--)
+	{
+		arr[j] = val % 10;
+		val /= 10;
+	}
+	return arr;
+}
+//第一次没考虑数字的大小，导致数字过大时单个数字会溢出
+int* plusOne(int* digits, int digitsSize, int* returnSize) {
+	int* arr = (int*)malloc(4 * digitsSize + 4);
+	arr[0] = 1;
+	int j = 0;
+	for (j = digitsSize - 1; j >= 0; j--)
+	{
+		if ((digits[j] += 1) != 10)
+			break;
+		else
+			digits[j] = 0;
+	}
+	int i = 0;
+	for (i = 0; i < digitsSize; i++)
+	{
+		arr[i + 1] = digits[i];
+	}
+	if (digits[0] == 0)
+	{
+		*returnSize = digitsSize + 1;
+		return arr;
+	}
+	else
+	{
+		*returnSize = digitsSize;
+		return arr + 1;
+	}
+}
