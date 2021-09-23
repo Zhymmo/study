@@ -1,0 +1,29 @@
+#include<stdlib.h>
+typedef struct StackNode
+{
+	int date;
+	StackNode* next;
+
+}StackNode,*LNode;
+void InitStack(LNode* Spp)
+{
+	*Spp = NULL;
+}
+void Plus(LNode* Spp, int e)
+{
+	LNode p = (LNode)malloc(sizeof(StackNode));
+	p->next = *Spp;
+	p->date = e;
+	*Spp = p;
+}
+int Pop(StackNode** Spp)
+{
+	if (*Spp == NULL)
+		return -1;
+	int e = (*Spp)->date;
+	StackNode *p = *Spp;
+	(*Spp) = (*Spp)->next;
+	free(p);
+	p = NULL;
+	return e;
+}
