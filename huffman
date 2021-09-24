@@ -1,0 +1,116 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//构建哈夫曼树1.构建结构体数组，存放节点的权双亲和孩子
+#define n 3
+#include<stdio.h>
+#include<string.h>
+#include<malloc.h>
+typedef struct Huffman
+{
+	int weight;
+	int parent;
+	int Lchild;
+	int Rchild;
+}Huffman;
+void ScanWeight(Huffman* p)
+{
+	int j = 1;
+	for (j = 1; j <= n; j++)
+	{
+		printf("%d\n", j);
+		scanf("%d", &((p+j)->weight));
+	}
+}
+void FindMini(Huffman* p, int* pmini1, int* pmini2)
+{
+	int k = 0;
+	*pmini1 = 0;
+	*pmini2 = 0;
+	for (k = 1; k < 2 * n; k++)//找到一棵树
+	{
+		if ((p + k)->parent != 0)//不能有双亲节点
+			continue;
+		if (*pmini1 == 0)//第一个没有初值时，取k为初值
+		{
+			*pmini1 = k;
+			continue;
+		}
+		if (*pmini2 == 0)//给初始值pmini1和pmini2赋值并且比较大小，pmini1<pmini2
+		{
+			if (((p + k)->weight) < ((p + *pmini1)->weight))
+			{
+				*pmini2 = *pmini1;
+				*pmini1 = k;
+			}
+			else
+			*pmini2 = k;
+			continue;
+		}
+
+		if (((p + k)->weight)!=0 && ((p + k)->weight) < ((p + *pmini2)->weight))//1，2都有初值时继续比较后续节点
+		{
+			if (((p + k)->weight) < ((p + *pmini1)->weight))
+			{
+				*pmini2 = *pmini1;
+				*pmini1 = k;
+			}
+			else
+				*pmini2 = k;
+		}
+	}
+
+	if (k == 2 * n)
+		return;
+	if (*pmini1 == 0)//把k赋值到最小的和第二小的节点，返回至霍夫曼树函数
+		* pmini1 = k;
+	else
+		*pmini2 = k;
+
+}
+void HuffmanTree(Huffman* p)//获得霍夫曼树的表
+{
+	int pmini1 = 0;
+	int pmini2 = 0;
+	int i = 0;
+	for (i = n + 1; i < 2 * n; i++)
+	{
+		FindMini(p, &pmini1, &pmini2);//找到权最小的两个，并且不能有双亲
+		(p + i)->weight = ((p + pmini1)->weight) + ((p + pmini2)->weight);//分别赋值双亲和孩子结点
+		(p + i)->Lchild = pmini1;
+		(p + i)->Rchild = pmini2;
+		((p + pmini1)->parent) =  i;
+		((p + pmini2)->parent) =  i;
+    }
+}
+void HuffmanCode(Huffman* p,char**HC)//获取霍夫曼编码
+{
+	char cd[n] = {0};//临时数组，存放编码，最后一位放\0
+	cd[n - 1] = '\0';
+	int i = 1;
+	for (; i <= n; i++)//循环获得n位的编码
+	{
+		int T = (p + i)->parent;//i的双亲结点
+		int C = i;//记录递归时，T的其中一个孩子结点
+		int count = n - 1;//标记到cd的位数
+		while (T)//循环从叶子节点到头节点，左孩子为0，右孩子为1
+		{
+			count--;
+			if ((p + T)->Lchild == C)
+				cd[count] = '0';
+			else
+				cd[count] = '1';
+			C = T;//回溯到当前结点
+			T= (p + T)->parent;//回溯T一直到头节点
+		}
+		HC[i] = (char*)malloc(n - count);//开辟一个刚好放下cd的空间
+		strcpy(HC[i], &cd[count]);//把临时的编码复制到HC中
+	}
+}
+int main()
+{
+	Huffman a1[2*n] = {0};
+	char* HC[n + 1] = { 0 };
+	ScanWeight(a1);
+	HuffmanTree(a1);
+	HuffmanCode(a1,HC);
+	return 0;
+}
