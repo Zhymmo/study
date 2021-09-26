@@ -1,0 +1,66 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<malloc.h>
+#define ORIGINAL_SYSTEM 10
+#define TARGET_SYSTEM 16
+//根据短除法，用栈实现数制转换
+typedef struct Stack
+{
+	int date;
+	struct Stack* next;
+
+}StackNode,*LNode;
+void InitStack(StackNode** Spp)
+{
+	*Spp = NULL;
+}
+void Push(StackNode** Spp, int e)
+{
+	LNode p = (LNode)malloc(sizeof(StackNode));
+	p->next = *Spp;
+	p->date = e;
+	*Spp = p;
+}
+int Pop(StackNode** Spp)
+{
+	if (*Spp == NULL)
+		return -1;
+	int e = (*Spp)->date;
+	StackNode * p = *Spp;
+	(*Spp) = (*Spp)->next;
+	free(p);
+	p = NULL;
+	return e;
+}
+int main()
+{
+	int e = 0;
+	printf("输入%d进制数\n", ORIGINAL_SYSTEM);
+	scanf("%d", &e);
+	LNode P = NULL;
+	if (e == 0)
+		return 0;
+	while (e >0)
+	{
+		Push(&P, e % TARGET_SYSTEM);
+		e = e/TARGET_SYSTEM;
+	}
+	printf("%d进制为\n", TARGET_SYSTEM);
+	char out = 0;
+	while (1)
+	{
+		out = Pop(&P);
+		if (out == -1)
+			break;
+		else if (out > 9)
+		{
+			out = 'a' + out - 10;
+		}
+		else
+		{
+			out = '0' + out;
+		}
+		printf("%c", out);
+	}
+	return 0;
+}
