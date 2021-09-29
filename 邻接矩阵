@@ -1,0 +1,55 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<malloc.h>
+#define MaxInt 32767//最大值
+#define MVNum 4//边数的最大值 
+typedef char VerTexType;//顶点类型
+typedef int ArcType;//边类型
+typedef struct
+{
+	VerTexType vexs[MVNum];//顶点表
+	ArcType arcs[MVNum][MVNum];//邻接矩阵
+	int vexnum;
+	int arcnum;//当前顶点数和边数
+}AMGraph;
+void CreatUDN(AMGraph* G)//创建无向网
+{
+	printf("输入总顶点数和总边数\n");
+	scanf(" %d %d", &(G->vexnum), &(G->arcnum));
+	for (int i = 0; i < G->vexnum; i++)//把顶点录入顶点表
+	{
+		printf("第%d个顶点\n", i+1);
+		scanf(" %c", &(G->vexs[i]));
+	}
+	for (int i = 0; i < MVNum; i++)//初始化邻接表，全替换成最大值
+		for (int j = 0; j < MVNum; j++)
+			(G->arcs)[i][j] = 0;
+	for (int k = 0; k < G->arcnum; k++)
+	{
+		VerTexType v1 = 0;
+		VerTexType v2 = 0;
+		ArcType w = 0;
+		int i = 0;
+		int j = 0;
+		printf("输入边的顶点和权值\n");
+		scanf(" %c %c %d", &v1, &v2, &w);
+		for (i = 0; i < MVNum; i++)
+		{
+			if (v1 == G->vexs[i])
+				break;
+		}
+		for (j = 0; j < MVNum; j++)
+		{
+			if (v2 == G->vexs[j])
+				break;
+		}
+		G->arcs[i][j] = w;
+		G->arcs[j][i] = w;
+    }
+}
+int main()
+{
+	AMGraph G = {0};
+	CreatUDN(&G);
+	return 0;
+}
