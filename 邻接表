@@ -1,0 +1,77 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<malloc.h>
+typedef struct ArcNode//定义边的链域
+{
+	int nextvex;
+	int weight;
+	struct ArcNode* nextarc;
+}ArcNode;
+typedef struct VexNode//顶点信息
+{
+	char date;
+	struct ArcNode* firstarc;//第一个链域边的地址
+}VexNode;
+typedef struct ALGraph//邻接表
+{
+	int Vexnum;
+	int Arcnum;
+	VexNode* VexkList[];//柔性数组，存放顶点结构体的指针
+}ALGraph;
+//1.输入顶点和边的数
+//2.输入所有的顶点
+//3.同时初始化顶点结构体的链域为NULL
+//4.输入边的信息，v1,v2.无向图要找到同时给v1，v2位置都加上链域
+void CreatUDG(ALGraph* G)
+{
+	printf("输入顶点和边的总数\n");
+	scanf(" %d %d", &G->Vexnum, &G->Arcnum);
+	for (int i = 0; i < G->Vexnum;i++)
+	{
+		printf("输入第%d个顶点\n", i);
+		scanf(" %c", &(G->VexkList[i])->date);
+		(G->VexkList[i])->firstarc = NULL;
+	}
+	for (int k = 0; k < G->Arcnum; k++)
+	{
+		char v1 = 0;
+		char v2 = 0;
+		int w = 0;
+		int i = 0;
+		int j = 0;
+		printf("输入边的开头和结束和权值\n");
+		scanf(" %c %c %d", &v1, &v2, &w);
+		for (i = 0; i < G->Vexnum; i++)
+		{
+			if (v1 == (G->VexkList[i])->date)
+				break;
+		}
+		if (i == G->Vexnum)
+		{
+			printf("找不到顶点,请重试\n");
+			k--;
+			continue;
+		}
+		for (j = 0; j < G->Vexnum; j++)
+		{
+			if (v2 == (G->VexkList[i])->date)
+				break;
+		}
+		if (j == G->Vexnum)
+		{
+			printf("找不到顶点,请重试\n");
+			k--;
+			continue;
+		}
+		ArcNode* p1 = (ArcNode*)malloc(sizeof(ArcNode));//开辟边链域
+		p1->weight = w;
+		p1->nextvex = j;
+		p1->nextarc = (G->VexkList[i])->firstarc;
+		(G->VexkList[i])->firstarc = p1;
+		ArcNode* p2 = (ArcNode*)malloc(sizeof(ArcNode));//开辟边链域
+		p1->weight = w;
+		p1->nextvex = i;
+		p1->nextarc = (G->VexkList[j])->firstarc;
+		(G->VexkList[j])->firstarc = p1;
+	}
+}
