@@ -1,0 +1,72 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<malloc.h>
+typedef struct ArcBox//定义边的链域
+{
+	int tailvex;
+	int headvex;
+	int weight;
+	struct ArcBox* hlink;
+	struct ArcBox* tlink;
+}ArcBox;
+typedef struct VexNode//顶点信息
+{
+	char date;
+	struct ArcBox* firstin;//第一个链域边的地址
+	struct ArcBox* firstout;
+}VexNode;
+typedef struct OLGraph//邻接表
+{
+	int Vexnum;
+	int Arcnum;
+	struct VexNode VexkList[];//柔性数组，存放顶点结构体
+}OLGraph;
+int SearchPosition(OLGraph* G, char v)
+{
+	int i = 0;
+	for (i = 0; i < G->Vexnum; i++)
+	{
+		if (v == (G->VexkList[i]).date)
+			break;
+	}
+}
+OLGraph* CreatUDG(OLGraph* G)
+{
+	int vn = 0;
+	int an = 0;
+	printf("输入顶点和边的总数\n");
+	scanf(" %d %d", &vn, &an);
+	G = (OLGraph*)malloc(sizeof(OLGraph) + sizeof(VexNode) * vn);
+	G->Vexnum = vn;
+	G->Arcnum = an;
+	for (int i = 0; i < G->Vexnum; i++)//录入顶点
+	{
+		printf("输入第%d个顶点\n", i + 1);
+		scanf(" %c", &(((G->VexkList)[i]).date));
+		(G->VexkList[i]).firstin = NULL;
+		(G->VexkList[i]).firstout = NULL;
+	}
+	for (int k = 0; k < G->Arcnum; k++)//录入有向边
+	{
+		char v1 = 0;
+		char v2 = 0;
+		int w = 0;
+		int i = 0;
+		int j = 0;
+		printf("输入第%d条弧的弧尾和弧头和权值\n", k);
+		scanf(" %c %c %d", &v1, &v2, &w);
+
+		i = SearchPosition(G, v1);
+		j = SearchPosition(G, v2);
+
+		ArcBox* p = (ArcBox*)malloc(sizeof(ArcBox));//开辟边链域
+		p->weight = w;
+		p->tailvex = i;
+		p->headvex = j;
+		p->tlink = (G->VexkList[i]).firstout;
+		(G->VexkList[i]).firstout = p;
+		p->hlink= (G->VexkList[j]).firstin;
+		(G->VexkList[j]).firstin = p;
+	}
+	return G;
+}
