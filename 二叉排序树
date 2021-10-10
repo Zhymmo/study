@@ -1,0 +1,124 @@
+//二叉排序树的 创建 增 查 删
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<stdio.h>
+#include<malloc.h>
+#define KEYTYPE int
+#define ENDFLAGE 0
+typedef struct SortTree
+{
+	KEYTYPE date;
+	struct SortTree* Lchild;
+	struct SortTree* Rchild;
+}ST;
+
+void InsertKey(ST** T, KEYTYPE val)
+{
+	ST* s = (ST*)malloc(sizeof(ST));
+	s->date = val;
+	s->Lchild = NULL;
+	s->Rchild = NULL;
+	if (*T == NULL)//the begining
+	{
+		*T = s;
+		return;
+	}
+	ST* P = *T;
+	ST* PF = P;
+	while (P)//find correct position(P) and the parent of it (PF)
+	{
+		if (val > P->date)
+		{
+			PF = P;
+			P = P->Rchild;
+		}
+		else
+		{
+			PF = P;
+			P = P->Lchild;
+		}
+	}
+	if (val > PF->date)
+	{
+		PF->Rchild = s;
+	}
+	else
+		PF->Lchild = s;
+}
+void CreatTree(ST** T)
+{
+	while (1)
+	{
+		int val = 0;
+		scanf("%d", &val);
+		if (val == ENDFLAGE)//finish if input zero
+			break;
+		InsertKey(T, val);
+	}
+	printf("创建成功！\n");
+}
+ST* SearchKey(ST** T, KEYTYPE val)
+{
+	if (!*T)
+	{
+		printf("无\n");
+		return NULL;
+	}
+	else if ((*T)->date == val)
+	{
+		printf("有\n");
+		return *T;
+	}
+	else if (val > (*T)->date)
+		SearchKey(&((*T)->Rchild), val);
+	else
+		SearchKey(&((*T)->Lchild), val);
+}
+void DeletKey(ST** T, KEYTYPE val)
+{
+	//1.找到关键值位置2.根据关键值左右孩子修改删除后的二叉树
+	ST*K=SearchKey(T, val);
+	if ((K->Lchild) && (K->Rchild))//如果被删除地方有左右孩子节点
+	{                            //1.用左边的最大值替代关键值2.最大值左孩子接双亲结点的右孩子3.删除最大值
+		ST* Q = K->Lchild;//找左侧最大值
+		ST* QP = K;//Q的双亲结点
+		while (Q->Rchild)//一直到最右，就是最大值
+		{
+			QP = Q;
+			Q = Q->Rchild;
+		}
+		K->date = Q->date;
+		if (QP == K)
+			QP->Lchild = Q->Lchild;
+		else
+			QP->Rchild = Q->Lchild;
+		free(Q);
+		Q = NULL;
+	}
+	else if (K->Rchild == NULL)
+	{
+		ST* Q = K->Lchild;
+		K->date = Q->date;//用左孩子代替关键值位置
+		K->Lchild = Q->Lchild;
+		K->Rchild = Q->Rchild;
+		free(Q);
+		Q = NULL;
+	}
+	else
+	{
+		ST* Q = K->Rchild;
+		K->date = Q->date;//用左孩子代替关键值位置
+		K->Lchild = Q->Lchild;
+		K->Rchild = Q->Rchild;
+		free(Q);
+		Q = NULL;
+	}
+
+}
+int main()
+{
+	ST* T=NULL;
+	CreatTree(&T);
+	SearchKey(&T, 10);
+	DeletKey(&T, 15);
+	return 0;
+}
