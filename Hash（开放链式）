@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<malloc.h>
+#include<stdbool.h>
 #define KEYTYPE int
 #define HTLENTH 7
 typedef struct 
@@ -70,7 +71,7 @@ bool myHashSetContains(MyHashSet* obj, int key) {
 		do
 		{
 			if (tmp->K == key)
-				return ture;
+				return true;
 			pre = tmp;
 		} while (tmp = tmp->Next);
 		return false;
