@@ -3,15 +3,15 @@
 #include<stdbool.h>
 #define KEYTYPE int
 #define HTLENTH 7
-typedef struct 
+typedef struct MyHashSet
 {
 	KEYTYPE K;
-	MyHashSet* Next;
+	struct MyHashSet* Next;
 } MyHashSet;
 
 
 MyHashSet* myHashSetCreate() {
-	return (MyHashSet*)malloc(HTLENTH * sizeof(MyHashSet));
+	return (MyHashSet*)calloc(HTLENTH, sizeof(MyHashSet));
 }
 
 void myHashSetAdd(MyHashSet* obj, int key) {//1.找是否有关键值，直到找到空2.插入并链接
@@ -96,4 +96,18 @@ void myHashSetFree(MyHashSet* obj) {
 	}
 	free(obj);
 	obj = NULL;
+}
+int main()
+{
+	int arr[10] = { 1,2,3,4,7,0,21,10,17,24 };
+	MyHashSet*obj= myHashSetCreate();
+	for(int i=0;i<10;i++)
+	{
+		myHashSetAdd(obj, arr[i]);
+	}
+	myHashSetRemove(obj, 21);
+	myHashSetContains(obj, 21);
+	myHashSetContains(obj, 24);
+	myHashSetFree(obj);
+	return 0;
 }
