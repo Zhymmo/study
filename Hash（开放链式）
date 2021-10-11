@@ -1,0 +1,98 @@
+#include<stdio.h>
+#include<malloc.h>
+#define KEYTYPE int
+#define HTLENTH 7
+typedef struct 
+{
+	KEYTYPE K;
+	MyHashSet* Next;
+} MyHashSet;
+
+
+MyHashSet* myHashSetCreate() {
+	return (MyHashSet*)malloc(HTLENTH * sizeof(MyHashSet));
+}
+
+void myHashSetAdd(MyHashSet* obj, int key) {//1.找是否有关键值，直到找到空2.插入并链接
+	if ((obj + (key % HTLENTH))->K)
+	{
+		MyHashSet* tmp = obj + (key % HTLENTH);
+		MyHashSet* pre=tmp;
+		do
+		{
+			if (tmp->K == key)
+				return;
+			pre = tmp;
+		} while (tmp=tmp->Next);
+		MyHashSet* s = (MyHashSet*)malloc(sizeof(MyHashSet));
+		s->K = key;
+		s->Next = NULL;
+		pre->Next = s;
+		return;
+	}
+	else
+	{
+		(obj + (key % HTLENTH))->K = key;
+		return;
+	}
+}
+
+void myHashSetRemove(MyHashSet* obj, int key) {
+	if ((obj + (key % HTLENTH))->K)
+	{
+		MyHashSet* tmp = obj + (key % HTLENTH);
+		MyHashSet* pre = tmp;
+		do
+		{
+			if (tmp->K == key)
+			{
+				pre->Next = tmp->Next;
+				free(tmp);
+				tmp = NULL;
+				printf("删除成功\n");
+				return;
+			}
+			pre = tmp;
+		} while (tmp = tmp->Next);
+		printf("找不到对象\n");
+		return;
+	}
+	else
+		printf("找不到对象\n");
+		return;
+}
+
+bool myHashSetContains(MyHashSet* obj, int key) {
+	if ((obj + (key % HTLENTH))->K)
+	{
+		MyHashSet* tmp = obj + (key % HTLENTH);
+		MyHashSet* pre = tmp;
+		do
+		{
+			if (tmp->K == key)
+				return ture;
+			pre = tmp;
+		} while (tmp = tmp->Next);
+		return false;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void myHashSetFree(MyHashSet* obj) {
+	for (int i=0;i<HTLENTH;i++)
+	{
+		MyHashSet* T = obj + i;
+		MyHashSet* next =T->Next;
+		while (next)
+		{
+			T = next;
+			next = next->Next;
+			free(T);
+		}
+	}
+	free(obj);
+	obj = NULL;
+}
