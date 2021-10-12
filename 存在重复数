@@ -1,0 +1,43 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<stdbool.h>
+#include<stdlib.h>
+#define KEYTYPE int
+#define HTLENTH 7
+typedef struct MyHashSet
+{
+	KEYTYPE K;
+	struct MyHashSet* Next;
+} MyHashSet;
+
+
+MyHashSet* myHashSetCreate() {
+	return (MyHashSet*)calloc(HTLENTH, sizeof(MyHashSet));
+}
+
+int myHashSetAdd(MyHashSet* obj, int key) {//1.找是否有关键值，直到找到空2.插入并链接
+	MyHashSet* tmp = obj + (abs(key) % HTLENTH);
+	MyHashSet* pre = tmp;
+	while (tmp = tmp->Next)
+	{
+		if (tmp->K == key)
+			return 1;
+		pre = tmp;
+	}
+	MyHashSet* s = (MyHashSet*)malloc(sizeof(MyHashSet));
+	s->K = key;
+	s->Next = NULL;
+	pre->Next = s;
+	return 0;
+}
+bool containsDuplicate(int* nums, int numsSize)
+{
+	MyHashSet* obj = myHashSetCreate();
+	int j = 1;
+	for (int i = 0; i < numsSize; i++)
+	{
+		if (myHashSetAdd(obj, nums[i]) == 1)
+			return true;
+	}
+	return false;
+}
