@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<malloc.h>
+#include<stdbool.h>
+#define KEYTYPE int
+#define HTLENTH 7
+int count = -1;
+typedef struct MyHashSet
+{
+	KEYTYPE K;
+	struct MyHashSet* Next;
+} MyHashSet;
+
+
+MyHashSet* myHashSetCreate() {
+	return (MyHashSet*)calloc(HTLENTH, sizeof(MyHashSet));
+}
+
+void myHashSetAdd(MyHashSet* obj, int key) {//1.找是否有关键值，直到找到空2.插入并链接
+	MyHashSet* tmp = obj + (abs(key) % HTLENTH);
+	MyHashSet* pre = tmp;
+	while (tmp = tmp->Next)
+	{
+		pre = tmp;
+	}
+	MyHashSet* s = (MyHashSet*)malloc(sizeof(MyHashSet));
+	s->K = key;
+	s->Next = NULL;
+	pre->Next = s;
+	return;
+}
+void myHashSetRemove(MyHashSet* obj, int key)
+{
+	MyHashSet* tmp = obj + (abs(key) % HTLENTH);
+	MyHashSet* pre = tmp;
+	while (tmp = tmp->Next)
+	{
+		if (tmp->K == key)
+		{
+			pre->Next = tmp->Next;
+			free(tmp);
+			tmp = NULL;
+			return;
+		}
+		pre = tmp;
+	}
+	return;
+}
+int myHashSetContains(MyHashSet * obj, int key) 
+{
+	MyHashSet* tmp = obj + (abs(key) % HTLENTH);
+
+	while (tmp = tmp->Next)
+	{
+		if (tmp->K == key)
+		{
+			myHashSetRemove(obj, key);
+			count++;
+			return 1;
+		}
+	}
+	return 0;
+}
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) 
+{
+	MyHashSet* obj = myHashSetCreate();
+	int* nums = (int*)malloc(5 * sizeof(int));
+	for (int i = 0; i < nums1Size; i++)
+	{
+		myHashSetAdd(obj, nums1[i]);
+	}
+	for (int i = 0; i < nums2Size; i++)
+	{
+		if (myHashSetContains(obj, nums2[i]) == 1)
+		{
+			if(count<=5)
+			nums[count] = nums2[i];
+			else
+			{
+				nums = (int*)realloc(nums, count * sizeof(int));
+				nums[count] = nums2[i];
+			}
+		}
+	}
+	*returnSize = count+1;
+	return nums;
+}
+int main()
+{
+	int nums1[3] = { 4,9,5 };
+	int nums2[5] = { 9,4,9,8,4 };
+	int returnSize = 0;
+	int*num=intersect(nums1, 3, nums2, 5, &returnSize);
+	for (int i = 0; i < returnSize; i++)
+	{
+		printf("%d", num[i]);
+	}
+}
