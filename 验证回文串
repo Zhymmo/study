@@ -1,0 +1,42 @@
+#include<stdbool.h>
+bool isPalindrome(char* s) {
+	//1.calculate lenth2.compare left right if " "continue
+	int lenth = 0;
+	for (; s[lenth]; lenth++);
+	int left = 0;
+	int right = lenth-1;
+	while (left < right)
+	{
+		if (s[left] >= 'A' && s[left] <= 'Z')
+		{
+			s[left] = s[left] + 'a' - 'A';
+		}
+		if (s[right] >= 'A' && s[right] <= 'Z')
+		{
+			s[right] = s[right] + 'a' - 'A';
+		}
+		if (s[left] >'z' || s[left] < '0'||(s[left]>'9'&&s[left]<'a'))
+		{
+			left++;
+			continue;
+		}
+		if (s[right] >'z'|| s[right] < '0' || (s[right] > '9' && s[right] < 'a'))
+		{
+			right--;
+			continue;
+		}
+		if (s[left] == s[right])
+		{
+			left++;
+			right--;
+		}
+		else
+			return false;
+	}
+	return true;
+}
+int main()
+{
+	char s[] = "0p";
+	isPalindrome(s);
+}
