@@ -1,0 +1,17 @@
+bool isAnagram(char* s, char* t) {
+	char AlTable[26] = { 0 };//creat a alpha table to save input char
+	int i = 0;
+	for (i = 0; s[i] && t[i]; i++)//put the corresponding alpha into corresonding positon
+	{
+		AlTable[(int)(s[i] - 'a')]++;
+		AlTable[(int)(t[i] - 'a')]--;
+	}
+	if (s[i] || t[i])
+		return false;
+	for (i = 0; i < 26; i++)
+	{
+		if (AlTable[i] != 0)
+			return false;
+	}
+	return true;
+}
