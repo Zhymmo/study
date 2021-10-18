@@ -1,0 +1,16 @@
+int firstUniqChar(char* s) {
+	char AlTable[26] = {0};//creat a alpha table to save input char
+	for (int i=0; s[i]; i++)//put the corresponding alpha into corresonding positon
+	{
+		if (AlTable[(int)(s[i] - 'a')] == 0)
+			AlTable[(int)(s[i] - 'a')] = s[i];
+		else
+			AlTable[(int)(s[i] - 'a')] = 1;
+	}
+	for (int i = 0; s[i]; i++)
+	{
+		if (AlTable[(int)(s[i] - 'a')] != 1)
+			return i;
+	}
+	return -1;
+}
