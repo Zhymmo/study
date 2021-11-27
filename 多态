@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+//猫类和狗类继承动物类并且都执行叫这个动作
+class animal
+{
+public:
+	virtual void speak()
+	{
+		cout << "Woooooo" << endl;
+	}
+};
+class cat:public animal
+{
+public:
+	void speak()
+	{
+		cout << "miao miao~~~" << endl;
+	}
+};
+class dog :public animal
+{
+	void speak()
+	{
+		cout << "wang wang~~~" << endl;
+	}
+};
+void test(animal& animal)
+{
+	animal.speak();
+}
+int main()
+{
+	cat cat;
+	test(cat);
+	dog dog;
+	test(dog);
+	return 0;
+}
